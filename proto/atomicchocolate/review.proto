@@ -1,0 +1,13 @@
+syntax = "proto3";
+package kempy007.atomicchocolate.atomicchocolate;
+
+option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/types";
+
+message Review {
+	string creator = 1;
+    uint64 id = 2;
+    string title = 3;
+    string review = 4;
+    uint64 projectID = 5;
+	string created = 6;
+}

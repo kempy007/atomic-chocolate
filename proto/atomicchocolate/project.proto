@@ -1,0 +1,12 @@
+syntax = "proto3";
+package kempy007.atomicchocolate.atomicchocolate;
+
+option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/types";
+
+message Project {
+	string creator = 1;
+    uint64 id = 2;
+    string title = 3;
+    string description = 4;
+	string literature = 5;
+}
