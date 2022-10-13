@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/stretchr/testify/require"
 	"github.com/kempy007/atomic-chocolate/testutil/sample"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMsgCreateProject_ValidateBasic(t *testing.T) {

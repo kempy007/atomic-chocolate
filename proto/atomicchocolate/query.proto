@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "atomicchocolate/params.proto";
+import "atomicchocolate/project.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/types";
@@ -15,7 +16,12 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/kempy007/atomic-chocolate/atomicchocolate/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a list of Projects items.
+	rpc Projects(QueryProjectsRequest) returns (QueryProjectsResponse) {
+		option (google.api.http).get = "/kempy007/atomic-chocolate/atomicchocolate/projects";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +31,19 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryProjectsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryProjectsResponse {
+//  string title = 1;
+//  string description = 2;
+//  string literature = 3;
+  repeated Project Project = 1;
+
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

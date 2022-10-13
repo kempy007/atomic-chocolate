@@ -3,11 +3,11 @@ package simulation
 import (
 	"math/rand"
 
-	"github.com/kempy007/atomic-chocolate/x/atomicchocolate/keeper"
-	"github.com/kempy007/atomic-chocolate/x/atomicchocolate/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	"github.com/kempy007/atomic-chocolate/x/atomicchocolate/keeper"
+	"github.com/kempy007/atomic-chocolate/x/atomicchocolate/types"
 )
 
 func SimulateMsgCreateProject(
