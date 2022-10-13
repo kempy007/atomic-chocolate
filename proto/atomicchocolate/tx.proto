@@ -19,6 +19,7 @@ message MsgCreateProject {
 }
 
 message MsgCreateProjectResponse {
+  uint64 id = 1;
 }
 
 

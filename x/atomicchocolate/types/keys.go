@@ -15,6 +15,9 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_atomicchocolate"
+
+	ProjectKey      = "Project-value-"
+	ProjectCountKey = "Project-count-"
 )
 
 func KeyPrefix(p string) []byte {

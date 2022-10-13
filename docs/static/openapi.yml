@@ -51552,6 +51552,12 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  kempy007.atomicchocolate.atomicchocolate.MsgCreateProjectResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
   kempy007.atomicchocolate.atomicchocolate.Params:
     type: object
     description: Params defines the parameters for the module.
