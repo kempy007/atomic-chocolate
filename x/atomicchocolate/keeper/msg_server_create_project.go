@@ -10,7 +10,7 @@ import (
 func (k msgServer) CreateProject(goCtx context.Context, msg *types.MsgCreateProject) (*types.MsgCreateProjectResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	var project = types.Projects{
+	var project = types.Project{
 		Creator:     msg.Creator,
 		Title:       msg.Title,
 		Description: msg.Description,

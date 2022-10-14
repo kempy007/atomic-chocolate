@@ -1,6 +1,11 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../atomicchocolate/params";
+import {
+  PageRequest,
+  PageResponse,
+} from "../cosmos/base/query/v1beta1/pagination";
+import { Project } from "../atomicchocolate/project";
 
 export const protobufPackage = "kempy007.atomicchocolate.atomicchocolate";
 
@@ -13,12 +18,21 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
-export interface QueryProjectsRequest {}
+export interface QueryProjectsRequest {
+  /** Adding pagination to request */
+  pagination: PageRequest | undefined;
+}
 
+/**
+ * string title = 1;
+ *  string description = 2;
+ *  string literature = 3;
+ */
 export interface QueryProjectsResponse {
-  title: string;
-  description: string;
-  literature: string;
+  /** Returning a list of projects */
+  Project: Project[];
+  /** Adding pagination to response */
+  pagination: PageResponse | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -121,7 +135,13 @@ export const QueryParamsResponse = {
 const baseQueryProjectsRequest: object = {};
 
 export const QueryProjectsRequest = {
-  encode(_: QueryProjectsRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryProjectsRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -132,6 +152,9 @@ export const QueryProjectsRequest = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -140,41 +163,51 @@ export const QueryProjectsRequest = {
     return message;
   },
 
-  fromJSON(_: any): QueryProjectsRequest {
+  fromJSON(object: any): QueryProjectsRequest {
     const message = { ...baseQueryProjectsRequest } as QueryProjectsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
     return message;
   },
 
-  toJSON(_: QueryProjectsRequest): unknown {
+  toJSON(message: QueryProjectsRequest): unknown {
     const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<QueryProjectsRequest>): QueryProjectsRequest {
+  fromPartial(object: DeepPartial<QueryProjectsRequest>): QueryProjectsRequest {
     const message = { ...baseQueryProjectsRequest } as QueryProjectsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
     return message;
   },
 };
 
-const baseQueryProjectsResponse: object = {
-  title: "",
-  description: "",
-  literature: "",
-};
+const baseQueryProjectsResponse: object = {};
 
 export const QueryProjectsResponse = {
   encode(
     message: QueryProjectsResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.title !== "") {
-      writer.uint32(10).string(message.title);
+    for (const v of message.Project) {
+      Project.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.description !== "") {
-      writer.uint32(18).string(message.description);
-    }
-    if (message.literature !== "") {
-      writer.uint32(26).string(message.literature);
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
     }
     return writer;
   },
@@ -183,17 +216,15 @@ export const QueryProjectsResponse = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseQueryProjectsResponse } as QueryProjectsResponse;
+    message.Project = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.title = reader.string();
+          message.Project.push(Project.decode(reader, reader.uint32()));
           break;
         case 2:
-          message.description = reader.string();
-          break;
-        case 3:
-          message.literature = reader.string();
+          message.pagination = PageResponse.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -205,30 +236,33 @@ export const QueryProjectsResponse = {
 
   fromJSON(object: any): QueryProjectsResponse {
     const message = { ...baseQueryProjectsResponse } as QueryProjectsResponse;
-    if (object.title !== undefined && object.title !== null) {
-      message.title = String(object.title);
-    } else {
-      message.title = "";
+    message.Project = [];
+    if (object.Project !== undefined && object.Project !== null) {
+      for (const e of object.Project) {
+        message.Project.push(Project.fromJSON(e));
+      }
     }
-    if (object.description !== undefined && object.description !== null) {
-      message.description = String(object.description);
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
     } else {
-      message.description = "";
-    }
-    if (object.literature !== undefined && object.literature !== null) {
-      message.literature = String(object.literature);
-    } else {
-      message.literature = "";
+      message.pagination = undefined;
     }
     return message;
   },
 
   toJSON(message: QueryProjectsResponse): unknown {
     const obj: any = {};
-    message.title !== undefined && (obj.title = message.title);
-    message.description !== undefined &&
-      (obj.description = message.description);
-    message.literature !== undefined && (obj.literature = message.literature);
+    if (message.Project) {
+      obj.Project = message.Project.map((e) =>
+        e ? Project.toJSON(e) : undefined
+      );
+    } else {
+      obj.Project = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
     return obj;
   },
 
@@ -236,20 +270,16 @@ export const QueryProjectsResponse = {
     object: DeepPartial<QueryProjectsResponse>
   ): QueryProjectsResponse {
     const message = { ...baseQueryProjectsResponse } as QueryProjectsResponse;
-    if (object.title !== undefined && object.title !== null) {
-      message.title = object.title;
-    } else {
-      message.title = "";
+    message.Project = [];
+    if (object.Project !== undefined && object.Project !== null) {
+      for (const e of object.Project) {
+        message.Project.push(Project.fromPartial(e));
+      }
     }
-    if (object.description !== undefined && object.description !== null) {
-      message.description = object.description;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
     } else {
-      message.description = "";
-    }
-    if (object.literature !== undefined && object.literature !== null) {
-      message.literature = object.literature;
-    } else {
-      message.literature = "";
+      message.pagination = undefined;
     }
     return message;
   },
