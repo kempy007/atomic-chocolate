@@ -13,6 +13,14 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
+export interface QueryProjectsRequest {}
+
+export interface QueryProjectsResponse {
+  title: string;
+  description: string;
+  literature: string;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -110,10 +118,149 @@ export const QueryParamsResponse = {
   },
 };
 
+const baseQueryProjectsRequest: object = {};
+
+export const QueryProjectsRequest = {
+  encode(_: QueryProjectsRequest, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryProjectsRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryProjectsRequest } as QueryProjectsRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryProjectsRequest {
+    const message = { ...baseQueryProjectsRequest } as QueryProjectsRequest;
+    return message;
+  },
+
+  toJSON(_: QueryProjectsRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<QueryProjectsRequest>): QueryProjectsRequest {
+    const message = { ...baseQueryProjectsRequest } as QueryProjectsRequest;
+    return message;
+  },
+};
+
+const baseQueryProjectsResponse: object = {
+  title: "",
+  description: "",
+  literature: "",
+};
+
+export const QueryProjectsResponse = {
+  encode(
+    message: QueryProjectsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.title !== "") {
+      writer.uint32(10).string(message.title);
+    }
+    if (message.description !== "") {
+      writer.uint32(18).string(message.description);
+    }
+    if (message.literature !== "") {
+      writer.uint32(26).string(message.literature);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryProjectsResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryProjectsResponse } as QueryProjectsResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.title = reader.string();
+          break;
+        case 2:
+          message.description = reader.string();
+          break;
+        case 3:
+          message.literature = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryProjectsResponse {
+    const message = { ...baseQueryProjectsResponse } as QueryProjectsResponse;
+    if (object.title !== undefined && object.title !== null) {
+      message.title = String(object.title);
+    } else {
+      message.title = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = String(object.description);
+    } else {
+      message.description = "";
+    }
+    if (object.literature !== undefined && object.literature !== null) {
+      message.literature = String(object.literature);
+    } else {
+      message.literature = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryProjectsResponse): unknown {
+    const obj: any = {};
+    message.title !== undefined && (obj.title = message.title);
+    message.description !== undefined &&
+      (obj.description = message.description);
+    message.literature !== undefined && (obj.literature = message.literature);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryProjectsResponse>
+  ): QueryProjectsResponse {
+    const message = { ...baseQueryProjectsResponse } as QueryProjectsResponse;
+    if (object.title !== undefined && object.title !== null) {
+      message.title = object.title;
+    } else {
+      message.title = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = object.description;
+    } else {
+      message.description = "";
+    }
+    if (object.literature !== undefined && object.literature !== null) {
+      message.literature = object.literature;
+    } else {
+      message.literature = "";
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** Queries a list of Projects items. */
+  Projects(request: QueryProjectsRequest): Promise<QueryProjectsResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -129,6 +276,18 @@ export class QueryClientImpl implements Query {
       data
     );
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
+  }
+
+  Projects(request: QueryProjectsRequest): Promise<QueryProjectsResponse> {
+    const data = QueryProjectsRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "kempy007.atomicchocolate.atomicchocolate.Query",
+      "Projects",
+      data
+    );
+    return promise.then((data) =>
+      QueryProjectsResponse.decode(new Reader(data))
+    );
   }
 }
 

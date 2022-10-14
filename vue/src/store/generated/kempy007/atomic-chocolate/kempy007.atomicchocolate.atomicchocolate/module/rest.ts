@@ -9,7 +9,10 @@
  * ---------------------------------------------------------------
  */
 
-export type AtomicchocolateMsgCreateProjectResponse = object;
+export interface AtomicchocolateMsgCreateProjectResponse {
+  /** @format uint64 */
+  id?: string;
+}
 
 /**
  * Params defines the parameters for the module.
@@ -22,6 +25,12 @@ export type AtomicchocolateParams = object;
 export interface AtomicchocolateQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: AtomicchocolateParams;
+}
+
+export interface AtomicchocolateQueryProjectsResponse {
+  title?: string;
+  description?: string;
+  literature?: string;
 }
 
 export interface ProtobufAny {
@@ -242,6 +251,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<AtomicchocolateQueryParamsResponse, RpcStatus>({
       path: `/kempy007/atomic-chocolate/atomicchocolate/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryProjects
+   * @summary Queries a list of Projects items.
+   * @request GET:/kempy007/atomic-chocolate/atomicchocolate/projects
+   */
+  queryProjects = (params: RequestParams = {}) =>
+    this.request<AtomicchocolateQueryProjectsResponse, RpcStatus>({
+      path: `/kempy007/atomic-chocolate/atomicchocolate/projects`,
       method: "GET",
       format: "json",
       ...params,

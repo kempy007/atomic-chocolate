@@ -29845,6 +29845,42 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /kempy007/atomic-chocolate/atomicchocolate/projects:
+    get:
+      summary: Queries a list of Projects items.
+      operationId: Kempy007AtomicchocolateAtomicchocolateProjects
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              literature:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /tendermint/spn/claim/airdrop_supply:
     get:
       summary: Queries a AirdropSupply by index.
@@ -51554,6 +51590,10 @@ definitions:
       the connection handshake.
   kempy007.atomicchocolate.atomicchocolate.MsgCreateProjectResponse:
     type: object
+    properties:
+      id:
+        type: string
+        format: uint64
   kempy007.atomicchocolate.atomicchocolate.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -51564,6 +51604,15 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  kempy007.atomicchocolate.atomicchocolate.QueryProjectsResponse:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      literature:
+        type: string
   tendermint.spn.claim.ClaimRecord:
     type: object
     properties:
