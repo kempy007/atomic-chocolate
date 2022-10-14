@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "atomicchocolate/params.proto";
+import "atomicchocolate/project.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/types";
@@ -33,12 +34,21 @@ message QueryParamsResponse {
 }
 
 message QueryProjectsRequest {
+  // Adding pagination to request
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryProjectsResponse {
-  string title = 1;
-  string description = 2;
-  string literature = 3;
+//  string title = 1;
+//  string description = 2;
+//  string literature = 3;
+
+  // Returning a list of projects
+  repeated Project Project = 1;
+
+  // Adding pagination to response
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+
 }
 
 // this line is used by starport scaffolding # 3
