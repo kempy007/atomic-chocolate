@@ -1,0 +1,14 @@
+syntax = "proto3";
+package kempy007.atomicchocolate.atomicchocolate;
+
+import "gogoproto/gogo.proto";
+import "atomicchocolate/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/types";
+
+// GenesisState defines the atomicchocolate module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}

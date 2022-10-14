@@ -1,0 +1,12 @@
+syntax = "proto3";
+package kempy007.atomicchocolate.atomicchocolate;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}
