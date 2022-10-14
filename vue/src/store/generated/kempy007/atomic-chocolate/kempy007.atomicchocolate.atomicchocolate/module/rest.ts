@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type AtomicchocolateMsgCreateProjectResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

@@ -7,7 +7,18 @@ option go_package = "github.com/kempy007/atomic-chocolate/x/atomicchocolate/type
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateProject(MsgCreateProject) returns (MsgCreateProjectResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateProject {
+  string creator = 1;
+  string title = 2;
+  string description = 3;
+  string literature = 4;
+}
+
+message MsgCreateProjectResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
