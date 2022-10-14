@@ -15,6 +15,10 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_atomicchocolate"
+
+	// Keep track of the index of posts
+	ProjectKey      = "Project/value/"
+	ProjectCountKey = "Project/count/"
 )
 
 func KeyPrefix(p string) []byte {
